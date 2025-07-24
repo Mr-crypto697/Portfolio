@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaithConnect - Christian Teen Community</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            text-align: center;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+            text-align: center;
+        }
+
+        .bible-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .verse-of-day {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .bible-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .bible-controls select, .bible-controls button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .bible-controls button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .prayer-wall {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .prayer-request {
+            background: linear-gradient(45deg, #ffecd2, #fcb69f);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .prayer-request:hover {
+            transform: translateX(5px);
+        }
+
+        .games-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-card {
+            background: linear-gradient(45deg, #a8edea, #fed6e3);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .game-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .spotify-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .playlist-card {
+            background: linear-gradient(45deg, #ffecd2, #fcb69f);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .playlist-card:hover {
+            transform: translateX(10px);
+        }
+
+        .social-media {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            padding: 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px) rotate(360deg);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            animation: bounce 2s ease-in-out infinite;
+            z-index: 1000;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .level-badge {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.3);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.3s;
+            animation: progress-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes progress-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 107, 107, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.8); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .bible-controls {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles" id="particles"></div>
+    
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">FaithConnect ✝️</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#bible">Bible</a></li>
+                <li><a href="#prayer">Prayer Wall</a></li>
+                <li><a href="#community">Community</a></li>
+                <li><a href="#games">Games</a></li>
+                <li><a href="#music">Music</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section class="hero" id="home">
+            <h1>Welcome to FaithConnect! 🙏</h1>
+            <p>A vibrant Christian community where teenagers connect, grow, and shine together in faith!</p>
+            <div class="level-badge">⭐ Level 1 Faith Explorer</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 65%"></div>
+            </div>
+            <a href="#" class="btn">Join Our Community</a>
+            
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-number" id="membersCount">2,847</span>
+                    <span>Active Members</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="prayersCount">15,293</span>
+                    <span>Prayers Shared</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="versesCount">8,456</span>
+                    <span>Verses Read Today</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="features-grid">
+            <div class="feature-card" onclick="showFeature('bible')">
+                <span class="feature-icon">📖</span>
+                <h3>Interactive Bible Study</h3>
+                <p>Dive deep into God's Word with interactive features, highlighting, notes, and daily reading plans designed for teens!</p>
+            </div>
+            
+            <div class="feature-card" onclick="showFeature('prayer')">
+                <span class="feature-icon">🙏</span>
+                <h3>Prayer Wall & Circles</h3>
+                <p>Share prayer requests, join prayer circles, and experience the power of community prayer with your faith family!</p>
+            </div>
+            
+            <div class="feature-card" onclick="showFeature('community')">
+                <span class="feature-icon">👥</span>
+                <h3>Faith Community</h3>
+                <p>Connect with like-minded teens, join discussion groups, share testimonies, and build lasting Christian friendships!</p>
+            </div>
+            
+            <div class="feature-card" onclick="showFeature('games')">
+                <span class="feature-icon">🎮</span>
+                <h3>Bible Games & Challenges</h3>
+                <p>Learn Scripture through fun games, trivia challenges, and interactive activities that make faith learning exciting!</p>
+            </div>
+        </div>
+
+        <section class="bible-section" id="bible">
+            <h2>📖 Daily Bible Experience</h2>
+            
+            <div class="verse-of-day">
+                <h3>✨ Verse of the Day ✨</h3>
+                <p id="dailyVerse">"For I know the plans I have for you," declares the Lord, "plans to prosper you and not to harm you, to give you hope and a future."</p>
+                <small>Jeremiah 29:11 (NIV)</small>
+            </div>
+            
+            <div class="bible-controls">
+                <select id="bibleBook">
+                    <option>Genesis</option>
+                    <option>Exodus</option>
+                    <option>Psalms</option>
+                    <option>Proverbs</option>
+                    <option>Matthew</option>
+                    <option>John</option>
+                    <option>Romans</option>
+                    <option>1 Corinthians</option>
+                </select>
+                <select id="bibleChapter">
+                    <option>Chapter 1</option>
+                    <option>Chapter 2</option>
+                    <option>Chapter 3</option>
+                </select>
+                <button onclick="openBibleReader()">📖 Open Bible Reader</button>
+                <button onclick="startReadingPlan()">📅 Start Reading Plan</button>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 40%"></div>
+            </div>
+            <p>📚 Reading Progress: 40% through Genesis</p>
+        </section>
+
+        <section class="prayer-wall" id="prayer">
+            <h2>🙏 Community Prayer Wall</h2>
+            
+            <div class="prayer-request">
+                <strong>Sarah, 16:</strong> "Please pray for my family during this difficult time. God's peace is what we need right now. 💙"
+                <div style="margin-top: 10px;">
+                    <button class="btn" style="font-size: 0.8rem; padding: 0.5rem 1rem;">🙏 Pray</button>
+                    <span style="color: #666; margin-left: 10px;">47 people praying</span>
+                </div>
+            </div>
+            
+            <div class="prayer-request">
+                <strong>Michael, 17:</strong> "Praise God! I got accepted into college! Thank you everyone who prayed for me! 🎉"
+                <div style="margin-top: 10px;">
+                    <button class="btn" style="font-size: 0.8rem; padding: 0.5rem 1rem;">🎉 Celebrate</button>
+                    <span style="color: #666; margin-left: 10px;">23 celebrations</span>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="addPrayerRequest()">✍️ Share Prayer Request</button>
+        </section>
+
+        <section class="games-section" id="games">
+            <h2>🎮 Faith Games & Challenges</h2>
+            
+            <div class="game-card" onclick="playGame('bible-trivia')">
+                <h3>📚 Bible Trivia Challenge</h3>
+                <p>Test your biblical knowledge with fun, age-appropriate questions! Current streak: 🔥 7 days</p>
+            </div>
+            
+            <div class="game-card" onclick="playGame('verse-memory')">
+                <h3>🧠 Scripture Memory Challenge</h3>
+                <p>Memorize verses through interactive games and earn badges! Next: Romans 8:28</p>
+            </div>
+            
+            <div class="game-card" onclick="playGame('bible-heroes')">
+                <h3>⚔️ Bible Heroes Adventure</h3>
+                <p>Journey through biblical stories as your favorite Bible characters!</p>
+            </div>
+        </section>
+
+        <section class="spotify-section" id="music">
+            <h2>🎵 Christian Music & Worship</h2>
+            
+            <div class="playlist-card" onclick="playPlaylist('worship')">
+                <span style="font-size: 2rem;">🎵</span>
+                <div>
+                    <h3>Teen Worship Hits</h3>
+                    <p>Latest contemporary Christian music perfect for young hearts</p>
+                </div>
+            </div>
+            
+            <div class="playlist-card" onclick="playPlaylist('study')">
+                <span style="font-size: 2rem;">📖</span>
+                <div>
+                    <h3>Bible Study Background</h3>
+                    <p>Peaceful instrumental music for reading and reflection</p>
+                </div>
+            </div>
+            
+            <div class="playlist-card" onclick="playPlaylist('energy')">
+                <span style="font-size: 2rem;">⚡</span>
+                <div>
+                    <h3>High Energy Christian Pop</h3>
+                    <p>Upbeat Christian songs to energize your day!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="social-media">
+            <h2>🌐 Connect With Us</h2>
+            <p>Follow FaithConnect on all platforms for daily inspiration, Bible verses, and community updates!</p>
+            
+            <div class="social-links">
+                <a href="#" title="Instagram">📷</a>
+                <a href="#" title="TikTok">🎵</a>
+                <a href="#" title="YouTube">📺</a>
+                <a href="#" title="Twitter">🐦</a>
+                <a href="#" title="Facebook">📘</a>
+                <a href="#" title="Discord">💬</a>
+            </div>
+        </section>
+    </div>
+
+    <div class="chat-widget" onclick="openChat()">
+        💬
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 6 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Animate counters
+        function animateCounters() {
+            const counters = ['membersCount', 'prayersCount', 'versesCount'];
+            const targets = [2847, 15293, 8456];
+            
+            counters.forEach((id, index) => {
+                const element = document.getElementById(id);
+                const target = targets[index];
+                let current = 0;
+                const increment = target / 100;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        element.textContent = target.toLocaleString();
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = Math.floor(current).toLocaleString();
+                    }
+                }, 20);
+            });
+        }
+
+        // Feature interactions
+        function showFeature(feature) {
+            const section = document.getElementById(feature);
+            section.scrollIntoView({ behavior: 'smooth' });
+            
+            // Add a glow effect
+            section.style.animation = 'none';
+            setTimeout(() => {
+                section.style.animation = 'pulse 1s ease-in-out';
+            }, 10);
+        }
+
+        function openBibleReader() {
+            alert('📖 Opening interactive Bible reader! Here you can highlight verses, take notes, and follow reading plans!');
+        }
+
+        function startReadingPlan() {
+            alert('📅 Starting your personalized Bible reading plan! We\'ll send you daily reminders and track your progress!');
+        }
+
+        function addPrayerRequest() {
+            alert('🙏 Share your prayer request with our loving community! Your request will be shared anonymously if you prefer.');
+        }
+
+        function playGame(game) {
+            const messages = {
+                'bible-trivia': '🎮 Loading Bible Trivia! Get ready to test your knowledge with fun questions!',
+                'verse-memory': '🧠 Starting Scripture Memory Challenge! Let\'s learn Romans 8:28 together!',
+                'bible-heroes': '⚔️ Welcome to Bible Heroes Adventure! Choose your character: David, Esther, or Daniel!'
+            };
+            alert(messages[game]);
+        }
+
+        function playPlaylist(type) {
+            const messages = {
+                'worship': '🎵 Now playing: Teen Worship Hits! Enjoy contemporary Christian music!',
+                'study': '📖 Playing peaceful study music. Perfect background for Bible reading!',
+                'energy': '⚡ High energy Christian pop is playing! Get pumped up with faith!'
+            };
+            alert(messages[type]);
+        }
+
+        function openChat() {
+            alert('💬 Opening community chat! Connect with other Christian teens, share encouragement, and grow together in faith!');
+        }
+
+        // Random verse rotation
+        const verses = [
+            { text: "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, to give you hope and a future.", ref: "Jeremiah 29:11" },
+            { text: "Trust in the Lord with all your heart and lean not on your own understanding.", ref: "Proverbs 3:5" },
+            { text: "I can do all things through Christ who strengthens me.", ref: "Philippians 4:13" },
+            { text: "Be strong and courageous! Do not be afraid or discouraged, for the Lord your God is with you wherever you go.", ref: "Joshua 1:9" }
+        ];
+
+        function rotateVerse() {
+            const verseElement = document.getElementById('dailyVerse');
+            const randomVerse = verses[Math.floor(Math.random() * verses.length)];
+            verseElement.innerHTML = `"${randomVerse.text}"<br><small>${randomVerse.ref} (NIV)</small>`;
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            setTimeout(animateCounters, 500);
+            setInterval(rotateVerse, 10000); // Change verse every 10 seconds
+        });
+
+        // Add some interactive hover effects
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
